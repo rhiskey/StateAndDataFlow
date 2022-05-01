@@ -5,9 +5,9 @@
 //  Created by Владимир Киселев on 01.05.2022.
 //
 
-import Foundation
-import Combine
+import SwiftUI
 
-class StorageManager {
-    //@AppStorage("name") var name: String = "User"
+struct StorageManager {
+    @AppStorage("name") var userName: String = "User"
+    @AppStorage("isRegister") var isRegisterUser: Bool = false
 }

@@ -9,9 +9,7 @@ import SwiftUI
 
 struct RegisterView: View {
     @EnvironmentObject var user: UserManager
-    @AppStorage("name") private var name = ""
-    // var name: String = ""
-    @State private var symbolsCount = "0"
+    @State private var name = ""
     @State private var symbolsColor = Color.red
     
     var body: some View {
@@ -20,14 +18,9 @@ struct RegisterView: View {
             HStack {
                 Spacer()
                 Spacer()
-                TextField("Enter your name...", text: $name) { _ in
-                    withAnimation {
-                        checkName()
-                    }
-                }.multilineTextAlignment(.center)
-                    .onChange(of: _name, perform: checkName())
-
-                Text(symbolsCount)
+                TextField("Enter your name...", text: $name)
+                    .multilineTextAlignment(.center)
+                Text("\(name.count)")
                     .foregroundColor(symbolsColor)
                     .padding(.trailing)
             }
@@ -36,19 +29,26 @@ struct RegisterView: View {
                     Image(systemName: "checkmark.circle")
                     Text("Ok")
                 }
-            }
+            }.disabled(!checkName())
         }
+    }
+    
+}
+
+struct RegisterView_Previews: PreviewProvider {
+    static var previews: some View {
+        RegisterView()
     }
 }
 
 extension RegisterView {
-    private func checkName() {
-        symbolsCount = "\(name.count)"
+    private func checkName() -> Bool {
         if name.count > 3 {
             symbolsColor = Color.green
-        }
-        else {
+            return true
+        } else {
             symbolsColor = Color.red
+            return false
         }
     }
 }
@@ -58,13 +58,9 @@ extension RegisterView {
         if !name.isEmpty {
             user.name = name
             user.isRegister.toggle()
-            name = name
+            
+            StorageManager().userName = name
+            StorageManager().isRegisterUser.toggle()
         }
-    }
-}
-
-struct RegisterView_Previews: PreviewProvider {
-    static var previews: some View {
-        RegisterView()
     }
 }

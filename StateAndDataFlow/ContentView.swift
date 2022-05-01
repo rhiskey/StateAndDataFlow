@@ -22,6 +22,7 @@ struct ContentView: View {
             Spacer()
             ButtonView(timer: timer)
             Spacer()
+            LogoutButtonView(user: user)
         }
     }
 }
@@ -50,5 +51,35 @@ struct ButtonView: View {
             RoundedRectangle(cornerRadius: 20)
                 .stroke(Color.black, lineWidth: 4)
         )
+    }
+}
+
+struct LogoutButtonView: View {
+    @ObservedObject var user: UserManager
+    
+    var body: some View {
+        Button(action: logout) {
+            Text("Logout")
+                .font(.title)
+                .fontWeight(.bold)
+                .foregroundColor(.white)
+        }
+        .frame(width: 200, height: 60)
+        .background(Color.blue)
+        .cornerRadius(20)
+        .overlay(
+            RoundedRectangle(cornerRadius: 20)
+                .stroke(Color.black, lineWidth: 4)
+        )
+    }
+}
+
+extension LogoutButtonView {
+    private func logout() {
+        StorageManager().userName = ""
+        StorageManager().isRegisterUser.toggle()
+
+        user.name = ""
+        user.isRegister.toggle()
     }
 }
