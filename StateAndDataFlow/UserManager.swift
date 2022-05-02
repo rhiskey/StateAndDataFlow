@@ -9,7 +9,22 @@ import Foundation
 import Combine
 import SwiftUI
 
-class UserManager: ObservableObject {
-    @Published var isRegister = StorageManager().isRegisterUser
-    var name = StorageManager().userName
+final class UserManager: ObservableObject {
+    
+    @Published var user = User()
+    
+    var isNameValid: Bool {
+        user.name.count >= 3
+    }
+    
+    init() {}
+    
+    init(user: User) {
+        self.user = user
+    }
+}
+
+struct User: Codable {
+    var name = ""
+    var isRegistered = false
 }
