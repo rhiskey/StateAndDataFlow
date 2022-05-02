@@ -44,10 +44,14 @@ struct RegisterView_Previews: PreviewProvider {
 extension RegisterView {
     private func checkName() -> Bool {
         if name.count > 3 {
-            symbolsColor = Color.green
+            DispatchQueue.main.async {
+                symbolsColor = Color.green
+            }
             return true
         } else {
-            symbolsColor = Color.red
+            DispatchQueue.main.async {
+                symbolsColor = Color.red
+            }
             return false
         }
     }
